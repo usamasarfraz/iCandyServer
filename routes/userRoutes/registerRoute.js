@@ -1,6 +1,8 @@
 const express = require('express');
 const user = express.Router();
 const nodemailer = require('nodemailer');
+const registerController = require('../../controllers/registerController/registerController');
+const User = require('../../models/userModel/userModel');
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -9,20 +11,17 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-mailOptions = {
-    from: 'usamasarfraz722@gmail.com',
-    to: 'usamasarfraz822@gmail.com',
-    subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
-};
+user.post('/send_mail',(req,res)=>{
 
-user.get('/sendMail',(req,res)=>{
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-    });
+  User.findOne({username:req.body.username},function(err,data){
+    if(data){
+        res.json({dataFound:true});
+    }
+    else{
+      registerController.register(req.body,transporter,function(err,data){
+        !err?res.json({userRegistered: true,data: data}):res.json({userRegistered: false});
+      });
+    }
+  });
 });
 module.exports = user;

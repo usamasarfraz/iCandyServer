@@ -12,14 +12,7 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-mailOptions = {
-    from: 'usamasarfraz722@gmail.com',
-    to: 'usamasarfraz822@gmail.com',
-    subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
-};
-
-user.get('/sendSms',(req,res)=>{
+user.get('/send_sms',(req,res)=>{
     client.messages.create({
         body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
         from: '+12055489497',
@@ -27,7 +20,13 @@ user.get('/sendSms',(req,res)=>{
     }).then(message => console.log(message.sid));
 });
 
-user.get('/sendMail',(req,res)=>{
+user.get('/send_mail',(req,res)=>{
+    let mailOptions = {
+        from: 'usamasarfraz722@gmail.com',
+        to: 'usamasarfraz822@gmail.com',
+        subject: 'Sending Email using Node.js',
+        text: 'That was easy!'
+    };
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
           console.log(error);

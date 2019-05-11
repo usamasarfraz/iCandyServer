@@ -12,7 +12,6 @@ let transporter = nodemailer.createTransport({
 });
 
 user.post('/send_mail',(req,res)=>{
-
   User.findOne({username:req.body.username},function(err,data){
     if(data){
         res.json({dataFound:true});

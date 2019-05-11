@@ -13,6 +13,6 @@ server.use(bodyParser.json());
 server.use('/user/login',loginRoute);
 server.use('/user/register',registerRoute);
 server.use('/user/forgetpassword',forgetPasswordRoute);
-http.listen(6249,()=>{
-    console.log('Server is up on 6249.');
+http.listen(port,()=>{
+    console.log('Server is up on '+port+'.');
 });

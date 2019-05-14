@@ -1,9 +1,8 @@
 const express = require('express');
 const user = express.Router();
-const accountSid = 'ACae047f7a8f4ef67347c1cea00435fe57';
-const authToken = 'fee176588ceccf1614ed0726fd5127be';
-const client = require('twilio')(accountSid, authToken);
 const nodemailer = require('nodemailer');
+const User = require('../../models/userModel/userModel');
+const resetPasswordController = require('../../controllers/resetPasswordController/resetPasswordController');
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -12,26 +11,26 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-user.get('/send_sms',(req,res)=>{
-    client.messages.create({
-        body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-        from: '+12055489497',
-        to: '+923217850909'
-    }).then(message => console.log(message.sid));
+user.post('/reset_password',(req,res)=>{
+    User.findOne({email:req.body.email},(err,data)=>{
+        if(err){
+            res.json({dataNotFound:true});
+        }
+        else{
+            resetPasswordController.sendVerificationCode(req.body,data,transporter,function(err,data){
+                res.json(data);
+            });
+        }
+    });
 });
 
-user.get('/send_mail',(req,res)=>{
-    let mailOptions = {
-        from: 'letslocate42@gmail.com',
-        to: 'usamasarfraz822@gmail.com',
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
-    };
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
+user.post('/change_password',(req,res)=>{
+    User.findOneAndUpdate({email: req.body.email},{password: req.body.password},(err,data)=>{
+        if(data){
+            res.json({passwordUpdated: true});
+        }
+        else{
+            res.json({passwordUpdated: false});
         }
     });
 });

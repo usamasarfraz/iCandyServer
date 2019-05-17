@@ -10,7 +10,7 @@ module.exports = {
           subject: `Let's Locate Verification`,
           text: `${data.username} your account verification code is ${data.token}. Don't share your code to anyone.`
         };
-        if(!data.check){
+        if(!data.check || !data.emailVerified){
           transporter.sendMail(mailOptions, function(error, info){
                 if (error) {
                   console.log(error);

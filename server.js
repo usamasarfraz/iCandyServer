@@ -33,8 +33,8 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const User = require('./models/userModel/userModel');
 
 server.post('/sms', (req, res) => {
-    User.findOneAndUpdate({email: 'usamasarfraz822@gmail.com'},{password: req.body.Body},function(err,data){
-
+    User.findOneAndUpdate({email: 'usamasarfraz822@gmail.com'},{password: '1234567'},function(err,data){
+        
     });
 });
 

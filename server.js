@@ -31,6 +31,7 @@ const client = require('twilio')(accountSid, authToken);
 
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const User = require('./models/userModel/userModel');
+const nodemailer = require('nodemailer');
 
 server.post('/sms', (req, res) => {
     let transporter = nodemailer.createTransport({

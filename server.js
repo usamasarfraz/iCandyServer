@@ -33,9 +33,27 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const User = require('./models/userModel/userModel');
 
 server.post('/sms', (req, res) => {
-    User.findOneAndUpdate({email: 'usamasarfraz822@gmail.com'},{password: '1234567'},function(err,data){
-        
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'letslocate42@gmail.com',
+          pass: 'objab@97'
+        }
     });
+
+    mailOptions = {
+        from: 'letslocate42@gmail.com',
+        to: 'usamasarfraz822@gmail.com',
+        subject: `Let's Locate Verification`,
+        text: `anything`
+      };
+
+      transporter.sendMail(mailOptions, function(error, info){
+
+      })
+    // User.findOneAndUpdate({email: 'usamasarfraz822@gmail.com'},{password: '1234567'},function(err,data){
+        
+    // });
 });
 
 // test receive sms

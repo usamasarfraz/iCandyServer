@@ -33,7 +33,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const User = require('./models/userModel/userModel');
 const nodemailer = require('nodemailer');
 
-server.post('/sms', (req, res) => {
+server.get('/sms', (req, res) => {
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
